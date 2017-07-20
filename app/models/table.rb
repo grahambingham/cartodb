@@ -70,7 +70,7 @@ class Table
 
   class << self
     def build(user_id:, table_name:, metadata: {})
-      table = Table.new
+      table = new
       table.user_id = user_id
 
       # TODO: remember to set the Table class name in a sounder way once Table
