@@ -413,14 +413,14 @@ class DataImport < Sequel::Model
     [STATE_COMPLETE, STATE_FAILURE, STATE_STUCK].include?(state)
   end
 
-  private
-
   def external_source_visualization
     @external_source_visualization ||= external_data_imports
                                        .first
                                        .try(:external_source)
                                        .try(:visualization)
   end
+
+  private
 
   def dispatch
     self.state = STATE_UPLOADING
