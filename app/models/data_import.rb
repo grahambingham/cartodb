@@ -415,6 +415,13 @@ class DataImport < Sequel::Model
 
   private
 
+  def external_source_visualization
+    @external_source_visualization ||= external_data_imports
+                                       .first
+                                       .try(:external_source)
+                                       .try(:visualization)
+  end
+
   def dispatch
     self.state = STATE_UPLOADING
     return migrate_existing   if migrate_table.present?
