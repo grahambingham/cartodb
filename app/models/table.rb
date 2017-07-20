@@ -78,8 +78,8 @@ class Table
       table.instance_eval { self[:name] = table_name }
       table.migrate_existing_table = table_name
 
-      table.description = metadata[:description] || table.description
-      table.set_tag_array(metadata[:tags] || table.tags)
+      table.description = metadata[:description]
+      table.set_tag_array(metadata[:tags] || [])
 
       table
     end
