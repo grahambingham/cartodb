@@ -68,6 +68,29 @@ class Table
   def_delegators :relator, *CartoDB::TableRelator::INTERFACE
   def_delegators :@user_table, *::UserTable::INTERFACE
 
+  class << self
+    def build(user_id:, table_name:, metadata: {})
+      table = Table.new
+      table.user_id = user_id
+
+      # TODO: remember to set the Table class name in a sounder way once Table
+      # has been refactored.
+      table.instance_eval { self[:name] = table_name }
+      table.migrate_existing_table = table_name
+
+      table.description = metadata[:description] || table.description
+      table.set_tag_array(metadata[:tags] || table.tags)
+
+      table
+    end
+  end
+
+  def register
+    save
+    optimize
+    update_bounding_box
+    map.recalculate_bounds!
+  end
 
   def initialize(args = {})
     if args[:user_table].nil?
