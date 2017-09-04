@@ -1,4 +1,6 @@
 module Carto
+  # TableRegistrar's goal is to create a UserTable object for an already created
+  # physical table in the user's database.
   class TableRegistrar
     def initialize(user_id:, table_name:, dataset_visualization: nil)
       @user_id = user_id
