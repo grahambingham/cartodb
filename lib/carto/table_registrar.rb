@@ -26,10 +26,7 @@ module Carto
     def build_table
       table = Table.new
       table.user_id = @user_id
-
-      # TODO: remember to set the Table class name in a sounder way once Table
-      # has been refactored.
-      table.instance_eval { self[:name] = @table_name }
+      table.user_table.name = @table_name
 
       table.migrate_existing_table = @table_name
       table
