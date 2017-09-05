@@ -28,7 +28,7 @@ module Carto
     def build_table
       table = Table.new
       table.user_id = @user_id
-      table.user_table.name = @table_name
+      table.instance_eval { self[:name] = @table_name }
       table.migrate_existing_table = @table_name
 
       table
