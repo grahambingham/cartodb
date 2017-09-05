@@ -38,7 +38,11 @@ module Carto
       [STATE_COMPLETE, STATE_FAILURE, STATE_STUCK].include?(state)
     end
 
-    private
-
+    def external_source_visualization
+        @external_source_visualization ||= external_data_imports
+                                           .first
+                                           .try(:external_source)
+                                           .try(:visualization)
+    end
   end
 end
