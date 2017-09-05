@@ -12,7 +12,10 @@ module Carto
       table = build_table
 
       if @dataset_visualization
-        copy_visualization_metadata_to_table(@dataset_visualization, table)
+        copy_dataset_visualization_metedata_to_table(
+          @dataset_visualization,
+          table
+        )
       end
 
       table.save
