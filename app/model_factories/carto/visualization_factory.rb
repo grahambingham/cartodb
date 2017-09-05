@@ -11,14 +11,15 @@ module Carto
       layers = build_canonical_layers(user_table)
       base_layers = layers.select(&:basemap?)
 
+      tags = esv.try(:tags)
       visualization = Carto::Visualization.new(
         name: user_table.name,
         map: build_canonical_map(user, base_layers.first),
         type: Carto::Visualization::TYPE_CANONICAL,
-        description: user_table.description,
+        description: esv.try(:description),
         attributions: esv.try(:attributions),
         source: esv.try(:source),
-        tags: user_table.tags && user_table.tags.split(','),
+        tags: tags && tags.split(','),
         privacy: user_table.visualization_privacy,
         user: user,
         kind: kind,
