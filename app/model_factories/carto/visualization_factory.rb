@@ -1,8 +1,8 @@
 module Carto
   class VisualizationFactory
-    def self.create_canonical_visualization(user_table,
-                                            esv: user_table.external_source_visualization)
+    def self.create_canonical_visualization(user_table)
       kind = user_table.raster? ? Carto::Visualization::KIND_RASTER : Carto::Visualization::KIND_GEOM
+      esv = user_table.external_source_visualization
       user = user_table.user
 
       # Map must be saved before layers, so register_table_dependencies is called after adding each layer
@@ -11,15 +11,14 @@ module Carto
       layers = build_canonical_layers(user_table)
       base_layers = layers.select(&:basemap?)
 
-      tags = esv.try(:tags)
       visualization = Carto::Visualization.new(
         name: user_table.name,
         map: build_canonical_map(user, base_layers.first),
         type: Carto::Visualization::TYPE_CANONICAL,
-        description: esv.try(:description),
+        description: user_table.description,
         attributions: esv.try(:attributions),
         source: esv.try(:source),
-        tags: tags && tags.split(','),
+        tags: user_table.tags && user_table.tags.split(','),
         privacy: user_table.visualization_privacy,
         user: user,
         kind: kind,
